@@ -19,7 +19,7 @@ DAH=2
 #globals
 pressedDownTime = 0
 pressedUpTime = 0
-pressedDurations = [ 0.3, 0.6 ]
+pressedDurations = [ 0.25, 0.5 ]
 
 def buttonPressed(channel):
     """Callback called when GPIO detects button is pressed"""
