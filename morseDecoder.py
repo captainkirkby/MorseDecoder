@@ -72,7 +72,7 @@ def detectCharacter(duration):
     pressedDurationsCopy = list(pressedDurations)
     pressedDurationsCopy.sort()
     #find highest TODO:non-outlier duration and assume it is dah
-    dahBenchmark = pressedDuration[len(pressedDuration)-1]
+    dahBenchmark = pressedDurationsCopy[len(pressedDurationsCopy)-1]
     
     #calculate ideal dit as half the duration of the dah benchmark
     ditBenchmark = dahBenchmark/2
