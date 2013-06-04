@@ -23,6 +23,7 @@ pressedUpTime = 0
 pressedDurations = [ 0.3]
 
 def buttonPressed(channel):
+    """Callback called when GPIO detects button is pressed"""
     global pressedUpTime
     pressedDuration = time.time() - pressedUpTime
     if pressedDuration <= MIN_DELAY_TIME:
@@ -36,6 +37,7 @@ def buttonPressed(channel):
         GPIO.add_event_detect(23, GPIO.RISING, callback=buttonReleased)
 
 def buttonReleased(channel):
+    """Callback called when GPIO detects button is released"""
     global pressedDownTime
     pressedDuration = time.time() - pressedDownTime
     if pressedDuration <= MIN_KEY_TIME:
@@ -68,6 +70,7 @@ def minimumBounceTime(maxRpm):
     return int(result)
     
 def detectCharacter(duration):
+    """Determines if a duration represents a DIT or a DAH"""
     global pressedDurations
     pressedDurationsCopy = list(pressedDurations)
     pressedDurationsCopy.sort()
