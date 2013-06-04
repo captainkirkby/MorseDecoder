@@ -20,7 +20,7 @@ DAH=2
 #globals
 pressedDownTime = 0
 pressedUpTime = 0
-pressedDurations = [ ]
+pressedDurations = [ 0.3]
 
 def buttonPressed(channel):
     global pressedUpTime
@@ -69,11 +69,19 @@ def minimumBounceTime(maxRpm):
     
 def detectCharacter(duration):
     global pressedDurations
-    #determine if short (DIT) or long (DAH) by comparing to average
-    if duration < (sum(pressedDurations) / len(pressedDurations)):
+    pressedDurationsCopy = list(pressedDurations)
+    pressedDurationsCopy.sort()
+    #find highest TODO:non-outlier duration and assume it is dah
+    dahBenchmark = pressedDuration[len(pressedDuration)-1]
+    
+    #calculate ideal dit as half the duration of the dah benchmark
+    ditBenchmark = dahBenchmark/2
+    
+    #compare duration to benchmarks
+    if duration <= ((ditBenchmark+dahBenchmark)/2):
         return DIT
     else:
-        return DIT
+        return DAH
 
 GPIO.add_event_detect(23, GPIO.FALLING,
         callback=buttonPressed,
