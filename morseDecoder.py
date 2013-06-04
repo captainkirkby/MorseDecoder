@@ -69,8 +69,11 @@ def minimumBounceTime(maxRpm):
     
 def detectCharacter(duration):
     global pressedDurations
-    #sort out durations into shorts and longs
-    return DIT
+    #determine if short (DIT) or long (DAH) by comparing to average
+    if duration < (sum(pressedDurations) / len(pressedDurations)):
+        return DIT
+    else:
+        return DIT
 
 GPIO.add_event_detect(23, GPIO.FALLING,
         callback=buttonPressed,
