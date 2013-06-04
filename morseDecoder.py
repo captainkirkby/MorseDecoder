@@ -49,7 +49,8 @@ def buttonReleased(channel):
         GPIO.setup(23, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.add_event_detect(23, GPIO.FALLING, callback=buttonPressed)
         
-        print(detectCharacter(pressedDuration))
+        morseChar = detectCharacter(pressedDuration))
+        print(morseToString(morseChar))
         
         #record the last few durations
         global pressedDurations
@@ -76,6 +77,10 @@ def detectCharacter(duration):
         return DIT
     else:
         return DAH
+
+def morseToString(morseChar):
+    if morseChar != 1 || morseChar != 2) return "?"
+    return (morseChar == DIT) ? "DIT" : "DAH"
 
 GPIO.add_event_detect(23, GPIO.FALLING,
         callback=buttonPressed,
