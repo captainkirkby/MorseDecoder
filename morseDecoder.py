@@ -13,6 +13,10 @@ MIN_KEY_TIME=0.20
 MIN_DELAY_TIME=0.10
 LEARNING_CYCLE = 8
 
+#morse constants
+DIT=1
+DAH=2
+
 #globals
 pressedDownTime = 0
 pressedUpTime = 0
@@ -44,6 +48,8 @@ def buttonReleased(channel):
         GPIO.setup(23, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.add_event_detect(23, GPIO.FALLING, callback=buttonPressed)
         
+        print(detectCharacter(pressedDuration))
+        
         #record the last few durations
         global pressedDurations
         if len(pressedDurations) >= LEARNING_CYCLE:
@@ -60,6 +66,11 @@ def minimumBounceTime(maxRpm):
     except ZeroDivisionError:
         result = STANDARD_BOUNCE_TIME
     return int(result)
+    
+def detectCharacter(duration):
+    global pressedDurations
+    #sort out durations into shorts and longs
+    return DIT
 
 GPIO.add_event_detect(23, GPIO.FALLING,
         callback=buttonPressed,
