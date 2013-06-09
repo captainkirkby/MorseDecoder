@@ -1,0 +1,3 @@
+import decoder
+
+decoder.decode([12121])
