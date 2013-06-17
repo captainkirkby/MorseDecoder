@@ -1,4 +1,5 @@
 import RPi.GPIO as GPIO
+from decoder import decode
 import time
 
 #GPIO setup
@@ -26,12 +27,18 @@ def buttonPressed(channel):
     """Callback called when GPIO detects button is pressed"""
     global pressedUpTime
     pressedDuration = time.time() - pressedUpTime
+    #software switch deboucing
     if pressedDuration <= MIN_DELAY_TIME:
         return
     else:
+        #if button is pressed
         print("Button Depressed")
+        if pressedUpTime != 0:
+            #use gap to determine if new morse character, new letter, or new word.
+            pass
         global pressedDownTime
         pressedDownTime = time.time()
+        #reset event detection
         GPIO.remove_event_detect(23)
         GPIO.setup(23, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.add_event_detect(23, GPIO.RISING, callback=buttonReleased)
@@ -41,12 +48,15 @@ def buttonReleased(channel):
     """Callback called when GPIO detects button is released"""
     global pressedDownTime
     pressedDuration = time.time() - pressedDownTime
+    #software switch debouncing
     if pressedDuration <= MIN_KEY_TIME:
         return
     else:
+        #if button is actually released
+        print("Button Released")
         global pressedUpTime
         pressedUpTime = time.time()
-        print("Button Released")
+        #reset event detection
         GPIO.remove_event_detect(23)
         GPIO.setup(23, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.add_event_detect(23, GPIO.FALLING, callback=buttonPressed)
