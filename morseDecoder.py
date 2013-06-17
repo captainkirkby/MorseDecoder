@@ -157,6 +157,8 @@ def addToResult(morseChar):
         #if none of the above, add a question mark to the results
         resultingMorse.append("?")
         resultingText += "?"
+    print(resultingMorse)
+    print(morseChar)
 
 
 def getPreviousCharFromMorse(morseCharList):
