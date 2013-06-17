@@ -157,6 +157,7 @@ def addToResult(morseChar):
         resultingMorse.append("?")
         global resultingText
         resultingText += "?"
+    print(resultingText)
 
 
 def getPreviousCharFromMorse(morseCharList):
