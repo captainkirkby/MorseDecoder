@@ -17,6 +17,11 @@ LEARNING_CYCLE = 8
 DIT = 1
 DAH = 2
 
+#gap constants
+NEW_MORSE_CHARACTER = 3
+NEW_LETTER = 4
+NEW_WORD = 5
+
 #globals
 pressedDownTime = 0
 pressedUpTime = 0
@@ -33,9 +38,13 @@ def buttonPressed(channel):
     else:
         #if button is pressed
         print("Button Depressed")
+        #check that this is not the first time
         if pressedUpTime != 0:
             #use gap to determine if new morse character, new letter, or new word.
-            pass
+            gapDuration = time.time() - pressedUpTime
+            #get gap
+            gap = detectGap(gapDuration)
+            print(morseToString(gap))
         global pressedDownTime
         pressedDownTime = time.time()
         #reset event detection
@@ -88,15 +97,45 @@ def detectCharacter(duration):
         return DAH
 
 
+def detectGap(duration):
+    """Determines if a gap represents a new morse character,
+    a new letter, or a new word.  An inter-element gap is the
+    same length as a dit, an character separation gap is the
+    same length as a dah (3 dits), and the word separation gap
+    is the same length as 7 dits."""
+    global pressedDurations
+    pressedDurationsCopy = list(pressedDurations)
+    pressedDurationsCopy.sort()
+    #find highest (TODO:non-outlier) duration and assume it is DAH
+    dahBenchmark = pressedDurationsCopy[len(pressedDurationsCopy)-1]
+    #calculate ideal dit as half the duration of the dah benchmark
+    ditBenchmark = dahBenchmark/2
+    #compare duration to benchmarks
+    if duration <= ((ditBenchmark+dahBenchmark)/2):
+        return NEW_MORSE_CHARACTER
+    elif duration <= (2*ditBenchmark+dahBenchmark):
+        return NEW_LETTER
+    else:
+        return NEW_WORD
+
+
 def morseToString(morseChar):
     if morseChar == DIT:
         return "DIT"
     elif morseChar == DAH:
         return "DAH"
+    elif morseChar == NEW_MORSE_CHARACTER:
+        return "New Morse Character"
+    elif morseChar == NEW_LETTER:
+        return "New Letter"
+    elif morseChar == NEW_WORD:
+        return "New Word"
     return "?"
 
 
-GPIO.add_event_detect(23, GPIO.FALLING, callback=buttonPressed, bouncetime=STANDARD_BOUNCE_TIME)
+GPIO.add_event_detect(23, GPIO.FALLING,
+                      callback=buttonPressed,
+                      bouncetime=STANDARD_BOUNCE_TIME)
 
 try:
     GPIO.wait_for_edge(24, GPIO.FALLING)
