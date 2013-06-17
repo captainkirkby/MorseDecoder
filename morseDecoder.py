@@ -147,6 +147,7 @@ def addToResult(morseChar):
         #letter and add to result string
         resultingMorse.append(morseChar)
         previousChar = getPreviousCharFromMorse(resultingMorse)
+        print(previousChar)
         resultingText += decode(previousChar)
     elif(morseChar == NEW_WORD):
         #if new word, add to morse result and add space to result string
