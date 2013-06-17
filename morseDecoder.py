@@ -178,6 +178,9 @@ def getPreviousCharFromMorse(morseCharList):
     upperLimit = mutableList.index(NEW_LETTER)
     sublist = mutableList[lowerLimit + 1:upperLimit]
     sublist.reverse()
+    filter(lambda a: a != NEW_MORSE_CHARACTER, sublist)
+    filter(lambda a: a != NEW_LETTER, sublist)
+    filter(lambda a: a != NEW_WORD, sublist)
     return sublist
 
 
