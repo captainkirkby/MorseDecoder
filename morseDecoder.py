@@ -160,7 +160,15 @@ def addToResult(morseChar):
 
 
 def getPreviousCharFromMorse(morseCharList):
-    pass
+    #first find last two instances of NEW_LETTER
+    mutableList = list(morseCharList)
+    mutableList.reverse()
+    lowerLimit = mutableList.index(NEW_LETTER)
+    mutableList[lowerLimit] = 0
+    upperLimit = mutableList.index(NEW_LETTER)
+    sublist = mutableList[lowerLimit + 1:upperLimit]
+    sublist.reverse()
+    return sublist
 
 
 GPIO.add_event_detect(23, GPIO.FALLING,
