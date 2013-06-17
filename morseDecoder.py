@@ -162,6 +162,9 @@ def addToResult(morseChar):
         resultingText += "?"
     print(resultingMorse)
     print(morseChar)
+    print("####")
+    print(resultingText)
+    print("####")
 
 
 def getPreviousCharFromMorse(morseCharList):
