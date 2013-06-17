@@ -146,6 +146,7 @@ def addToResult(morseChar):
         #if new letter, add to morse result and compute completed
         #letter and add to result string
         resultingMorse.append(morseChar)
+        print(resultingMorse)
         previousChar = getPreviousCharFromMorse(resultingMorse)
         print(previousChar)
         resultingText += decode(previousChar)
