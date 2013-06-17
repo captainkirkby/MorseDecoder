@@ -27,7 +27,7 @@ pressedDownTime = 0
 pressedUpTime = 0
 pressedDurations = [0.25, 0.5]
 
-resultingMorse = []
+resultingMorse = [NEW_LETTER]
 resultingText = ""
 
 
