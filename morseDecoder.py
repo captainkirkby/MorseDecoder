@@ -47,6 +47,7 @@ def buttonPressed(channel):
             gapDuration = time.time() - pressedUpTime
             #get gap
             gap = detectGap(gapDuration)
+            addToResult(gap)
             print(morseToString(gap))
         global pressedDownTime
         pressedDownTime = time.time()
@@ -75,6 +76,7 @@ def buttonReleased(channel):
         GPIO.add_event_detect(23, GPIO.FALLING, callback=buttonPressed)
         #get the character
         morseChar = detectCharacter(pressedDuration)
+        addToResult(morseChar)
         print(morseToString(morseChar))
         #record the last few durations
         global pressedDurations
