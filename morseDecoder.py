@@ -27,6 +27,9 @@ pressedDownTime = 0
 pressedUpTime = 0
 pressedDurations = [0.25, 0.5]
 
+resultingMorse = []
+resultingText = ""
+
 
 def buttonPressed(channel):
     """Callback called when GPIO detects button is pressed"""
@@ -131,6 +134,33 @@ def morseToString(morseChar):
     elif morseChar == NEW_WORD:
         return "New Word"
     return "?"
+
+
+def addToResult(morseChar):
+    if(morseChar == DIT or morseChar == DAH or morseChar == NEW_MORSE_CHARACTER):
+        #if DIT, DAH or NEW_MORSE_CHARACTER add to morse result
+        resultingMorse.append(morseChar)
+    elif(morseChar == NEW_LETTER):
+        #if new letter, add to morse result and compute completed
+        #letter and add to result string
+        resultingMorse.append(morseChar)
+        previousChar = getPreviousCharFromMorse(resultingMorse)
+        global resultingText
+        resultingText += decode(previousChar)
+    elif(morseChar == NEW_WORD):
+        #if new word, add to morse result and add space to result string
+        resultingMorse.append(morseChar)
+        global resultingText
+        resultingText += " "
+    else:
+        #if none of the above, add a question mark to the results
+        resultingMorse.append("?")
+        global resultingText
+        resultingText += "?"
+
+
+def getPreviousCharFromMorse(morseCharList):
+    pass
 
 
 GPIO.add_event_detect(23, GPIO.FALLING,
