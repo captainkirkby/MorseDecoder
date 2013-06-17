@@ -137,6 +137,7 @@ def morseToString(morseChar):
 
 
 def addToResult(morseChar):
+    global resultingText
     if(morseChar == DIT or morseChar == DAH or morseChar == NEW_MORSE_CHARACTER):
         #if DIT, DAH or NEW_MORSE_CHARACTER add to morse result
         resultingMorse.append(morseChar)
@@ -145,17 +146,14 @@ def addToResult(morseChar):
         #letter and add to result string
         resultingMorse.append(morseChar)
         previousChar = getPreviousCharFromMorse(resultingMorse)
-        global resultingText
         resultingText += decode(previousChar)
     elif(morseChar == NEW_WORD):
         #if new word, add to morse result and add space to result string
         resultingMorse.append(morseChar)
-        global resultingText
         resultingText += " "
     else:
         #if none of the above, add a question mark to the results
         resultingMorse.append("?")
-        global resultingText
         resultingText += "?"
     print(resultingText)
 
