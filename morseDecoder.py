@@ -58,7 +58,6 @@ def buttonPressed(channel):
 
 
 def buttonReleased(channel):
-    print(resultingText)
     """Callback called when GPIO detects button is released"""
     global pressedDownTime
     pressedDuration = time.time() - pressedDownTime
@@ -148,7 +147,6 @@ def addToResult(morseChar):
         #if new letter, add to morse result and compute completed
         #letter and add to result string
         resultingMorse.append(morseChar)
-        print(resultingMorse)
         previousChar = getPreviousCharFromMorse(resultingMorse)
         print(previousChar)
         print("=")
@@ -162,8 +160,6 @@ def addToResult(morseChar):
         #if none of the above, add a question mark to the results
         resultingMorse.append("?")
         resultingText += "?"
-    print(resultingMorse)
-    print(morseChar)
     print("####")
     print(resultingText)
     print("####")
