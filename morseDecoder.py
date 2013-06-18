@@ -12,6 +12,7 @@ STANDARD_BOUNCE_TIME = 60
 MIN_KEY_TIME = 0.15
 MIN_DELAY_TIME = 0.10
 LEARNING_CYCLE = 8
+VERBOSE = False
 
 #morse constants
 DIT = 1
@@ -26,7 +27,6 @@ NEW_WORD = 5
 pressedDownTime = 0
 pressedUpTime = 0
 pressedDurations = [0.25, 0.5]
-
 resultingMorse = [NEW_LETTER]
 resultingText = ""
 
@@ -40,7 +40,8 @@ def buttonPressed(channel):
         return
     else:
         #if button is pressed
-        print("Button Depressed")
+        if VERBOSE:
+            print("Button Depressed")
         #check that this is not the first time
         if pressedUpTime != 0:
             #use gap to determine if new morse character, new letter, or new word.
@@ -48,7 +49,8 @@ def buttonPressed(channel):
             #get gap
             gap = detectGap(gapDuration)
             addToResult(gap)
-            print(morseToString(gap))
+            if VERBOSE:
+                print(morseToString(gap))
         global pressedDownTime
         pressedDownTime = time.time()
         #reset event detection
@@ -66,7 +68,8 @@ def buttonReleased(channel):
         return
     else:
         #if button is actually released
-        print("Button Released")
+        if VERBOSE:
+            print("Button Released")
         global pressedUpTime
         pressedUpTime = time.time()
         #reset event detection
@@ -76,14 +79,16 @@ def buttonReleased(channel):
         #get the character
         morseChar = detectCharacter(pressedDuration)
         addToResult(morseChar)
-        print(morseToString(morseChar))
+        if VERBOSE:
+            print(morseToString(morseChar))
         #record the last few durations
         global pressedDurations
         if len(pressedDurations) >= LEARNING_CYCLE:
             #remove last item
             del pressedDurations[(len(pressedDurations)-1)]
         pressedDurations.append(pressedDuration)
-        print(pressedDuration)
+        if VERBOSE:
+            print(pressedDuration)
 
 
 def detectCharacter(duration):
@@ -151,18 +156,20 @@ def addToResult(morseChar):
         #letter and add to result string
         resultingMorse.append(morseChar)
         previousChar = getPreviousCharFromMorse(resultingMorse)
-        print(previousChar)
-        print("=")
-        print(decode(previousChar))
+        if VERBOSE:
+            print(previousChar)
+            print("=")
+            print(decode(previousChar))
         resultingText += decode(previousChar)
     elif(morseChar == NEW_WORD):
         #if new word, add to morse result, compute completed letter
         #and add space to result string
         resultingMorse.append(NEW_LETTER)
         previousChar = getPreviousCharFromMorse(resultingMorse)
-        print(previousChar)
-        print("=")
-        print(decode(previousChar))
+        if VERBOSE:
+            print(previousChar)
+            print("=")
+            print(decode(previousChar))
         resultingText += decode(previousChar)
         #add space
         resultingMorse.append(morseChar)
@@ -171,9 +178,11 @@ def addToResult(morseChar):
         #if none of the above, add a question mark to the results
         resultingMorse.append("?")
         resultingText += "?"
-    print("####")
+    if VERBOSE:
+        print("####")
     print(resultingText)
-    print("####")
+    if VERBOSE:
+        print("####")
 
 
 def getPreviousCharFromMorse(morseCharList):
