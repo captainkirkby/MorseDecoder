@@ -125,6 +125,7 @@ def detectGap(duration):
 
 
 def morseToString(morseChar):
+    """Returns a string representation of a morse character."""
     if morseChar == DIT:
         return "DIT"
     elif morseChar == DAH:
@@ -139,6 +140,8 @@ def morseToString(morseChar):
 
 
 def addToResult(morseChar):
+    """Decodes a given morse character and adds the decoded result
+    to the global resulting string."""
     global resultingText
     if(morseChar == DIT or morseChar == DAH or morseChar == NEW_MORSE_CHARACTER):
         #if DIT, DAH or NEW_MORSE_CHARACTER add to morse result
@@ -174,6 +177,7 @@ def addToResult(morseChar):
 
 
 def getPreviousCharFromMorse(morseCharList):
+    """Gets the last completed character from a morse buffer."""
     #first find last two instances of NEW_LETTER
     mutableList = list(morseCharList)
     mutableList.reverse()
